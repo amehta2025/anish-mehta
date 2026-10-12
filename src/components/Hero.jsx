@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Snake from '../games/Snake.jsx'
+import Route from '../games/Route.jsx'
 
 const roles = [
   'full-stack apps',
@@ -76,7 +76,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <Snake />
+        <Route />
       </div>
     </section>
   )

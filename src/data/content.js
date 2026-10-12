@@ -42,4 +42,13 @@ export const projects = [
       { label: 'Code', url: 'https://github.com/prabas007/patient-hub' },
     ],
   },
+  {
+    title: 'VisionSwim 2.0',
+    blurb: 'Swim lane detection device that alerts swimmers with vision loss when they drift off course.',
+    tags: ['Arduino', 'C++', 'Computer Vision', 'Pixy'],
+    highlight: 'MedLaunch UIUC 2025',
+    links: [
+      { label: 'Code', url: 'https://github.com/aayyah3/VisionSwim2.0' },
+    ],
+  },
 ]

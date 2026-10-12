@@ -284,7 +284,7 @@ body {
   from { opacity: 0; transform: translateY(24px); }
 }
 
-/* ---------- Arcade (Snake in the hero) ---------- */
+/* ---------- Arcade (the game panel in the hero) ---------- */
 .arcade {
   display: flex;
   flex-direction: column;
@@ -305,40 +305,164 @@ body {
   padding: 0 4px;
 }
 
-.arcade__screen {
-  position: relative;
-}
-
-.arcade__canvas {
+/* ---------- Route (shortest-path puzzle) ---------- */
+.route__board {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 1;
   border-radius: 12px;
   border: 1px solid var(--border);
-  touch-action: none; /* lets swipes control the snake instead of scrolling */
+  background: radial-gradient(circle at 50% 40%, rgba(45, 226, 201, 0.06), rgba(7, 9, 18, 0.85) 70%);
+  touch-action: none; /* lets drags draw the route instead of scrolling */
+  cursor: pointer;
+  transition: box-shadow 0.4s;
 }
 
-.arcade__overlay {
-  position: absolute;
-  inset: 0;
+.route__board.is-solved {
+  box-shadow: 0 0 40px -8px rgba(198, 244, 50, 0.6), inset 0 0 30px -10px rgba(198, 244, 50, 0.4);
+}
+
+.route__edge {
+  stroke: rgba(127, 147, 160, 0.28);
+  stroke-width: 0.5;
+  stroke-linecap: round;
+  transition: stroke 0.2s;
+}
+
+.route__edge.is-option {
+  stroke: rgba(45, 226, 201, 0.55);
+  stroke-dasharray: 1.2 1.2;
+}
+
+.route__edge.is-route {
+  stroke: url(#route-glow);
+  stroke-width: 1.3;
+  filter: drop-shadow(0 0 1.5px var(--magenta));
+}
+
+.route__weight circle {
+  fill: #070912;
+  stroke: rgba(127, 147, 160, 0.3);
+  stroke-width: 0.3;
+}
+
+.route__weight text {
+  fill: var(--muted);
+  font: 500 3.3px var(--font-mono);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.route__weight.is-route circle {
+  stroke: var(--amber);
+}
+
+.route__weight.is-route text {
+  fill: var(--amber);
+}
+
+.route__node {
+  fill: #070912;
+  stroke: var(--muted);
+  stroke-width: 0.5;
+  transition: fill 0.2s, stroke 0.2s;
+}
+
+.route__node.is-visited {
+  stroke: var(--teal);
+  fill: rgba(45, 226, 201, 0.18);
+}
+
+.route__node.is-route {
+  fill: var(--text);
+  stroke: var(--teal);
+  filter: drop-shadow(0 0 1.5px var(--teal));
+}
+
+.route__node.is-start {
+  fill: var(--teal);
+  stroke: none;
+  filter: drop-shadow(0 0 2.5px var(--teal));
+}
+
+.route__node.is-end {
+  fill: var(--magenta);
+  stroke: none;
+  filter: drop-shadow(0 0 2.5px var(--magenta));
+}
+
+.route__node:focus-visible {
+  outline: none;
+  stroke: var(--amber);
+  stroke-width: 0.9;
+}
+
+.route__ring {
+  fill: none;
+  stroke: var(--teal);
+  stroke-width: 0.35;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: route-pulse 1.4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes route-pulse {
+  from { opacity: 0.9; transform: scale(0.6); }
+  to { opacity: 0; transform: scale(1.15); }
+}
+
+.route__readout {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  text-align: center;
-  border-radius: 12px;
-  background: rgba(5, 6, 12, 0.7);
-  backdrop-filter: blur(3px);
+  gap: 8px 12px;
+  padding: 0 4px;
 }
 
-.arcade__title {
+.route__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.route__btn {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: 500 0.72rem var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.route__btn:hover:not(:disabled) {
+  border-color: var(--teal);
+  box-shadow: 0 0 14px -4px rgba(45, 226, 201, 0.7);
+}
+
+.route__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.route__btn.is-next {
+  border-color: transparent;
+  background: linear-gradient(120deg, var(--magenta), #8b3dff);
+  box-shadow: 0 0 18px -4px rgba(255, 43, 214, 0.8);
+}
+
+.route__status {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 2rem;
-  letter-spacing: -0.03em;
+  padding: 0 4px;
+  min-height: 2.6em;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* ---------- Sections ---------- */
