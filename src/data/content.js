@@ -52,3 +52,9 @@ export const projects = [
     ],
   },
 ]
+
+export const contact = [
+  { label: 'Email', handle: 'amehta2025@gmail.com', url: 'mailto:amehta2025@gmail.com' },
+  { label: 'LinkedIn', handle: 'in/anish-mehta-uiuc', url: 'https://www.linkedin.com/in/anish-mehta-uiuc' },
+  { label: 'GitHub', handle: 'amehta2025', url: 'https://github.com/amehta2025' },
+]
