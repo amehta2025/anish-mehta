@@ -623,54 +623,9 @@ body {
 }
 
 .contact {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-}
-
-.contact__link {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 4px 12px;
-  padding: 20px 22px;
-  border-radius: 18px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  color: var(--text);
-  text-decoration: none;
-  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-}
-
-.contact__link:hover,
-.contact__link:focus-visible {
-  transform: translateY(-4px);
-  border-color: var(--teal);
-  box-shadow: 0 0 30px -8px rgba(45, 226, 201, 0.6);
-  outline: none;
-}
-
-.contact__handle {
-  grid-column: 1;
-  font-weight: 600;
-  font-size: 1.05rem;
-  overflow-wrap: anywhere;
-}
-
-.contact__arrow {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  align-self: center;
-  color: var(--muted);
-  transition: color 0.25s, transform 0.25s;
-}
-
-.contact__link:hover .contact__arrow {
-  color: var(--teal);
-  transform: translate(2px, -2px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* ---------- Phones and small screens ---------- */

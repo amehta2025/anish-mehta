@@ -7,24 +7,21 @@ export default function Contact() {
       <p className="contact__lead">
         Open to internships, research, and interesting projects. Reach out any time.
       </p>
-      <ul className="contact">
-        {contact.map((item) => {
+      <div className="contact">
+        {contact.map((item, i) => {
           const external = !item.url.startsWith('mailto:')
           return (
-            <li key={item.label}>
-              <a
-                className="contact__link"
-                href={item.url}
-                {...(external && { target: '_blank', rel: 'noreferrer' })}
-              >
-                <span className="mono">{item.label}</span>
-                <span className="contact__handle">{item.handle}</span>
-                <span className="contact__arrow" aria-hidden="true">↗</span>
-              </a>
-            </li>
+            <a
+              key={item.label}
+              className={i === 0 ? 'btn btn--primary' : 'btn'}
+              href={item.url}
+              {...(external && { target: '_blank', rel: 'noreferrer' })}
+            >
+              {item.label}{external && ' ↗'}
+            </a>
           )
         })}
-      </ul>
+      </div>
     </section>
   )
 }
