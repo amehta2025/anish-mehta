@@ -615,6 +615,19 @@ body {
   text-shadow: 0 0 10px var(--magenta);
 }
 
+/* ---------- Contact ---------- */
+.contact__lead {
+  margin: -18px 0 28px;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 /* ---------- Phones and small screens ---------- */
 @media (max-width: 860px) {
   .hero__inner {
