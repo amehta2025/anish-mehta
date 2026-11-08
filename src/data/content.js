@@ -25,7 +25,7 @@ export const experience = [
   },
   {
     role: 'Software Developer',
-    org: 'NOBE UIUC',
+    org: 'National Organization for Business and Engineering (NOBE), UIUC',
     when: 'Sep 2026 – Present',
     current: true,
     summary: 'Developed full-stack features for an elementary school after-school lottery system, including an admin settings dashboard, CSV student import and validation workflows, and a Java-based lottery placement engine.',
