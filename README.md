@@ -4,11 +4,12 @@ Hey, I'm Anish. This is my personal website.
 
 **Live:** https://anish-mehta.vercel.app
 
-It has a bit about me, my experience, some projects, and **Route**: a little puzzle in the hero where you try to find the cheapest path through a network before Dijkstra's algorithm does. Leave it alone and it plays itself.
+The site is designed like an engineering drawing: a title block across the top (with a live cursor readout), a "Detail A" diagram of what I'm working on now, projects laid out as numbered parts with spec tables (hover one to measure it), and an experience log. It follows your system's light/dark setting (dark mode is a blueprint) and respects reduced-motion preferences.
 
 ## Built with
 
 - React + Vite
+- IBM Plex Sans / IBM Plex Mono
 - Vitest for tests
 - GitHub Actions for CI
 - Vercel for hosting
@@ -26,16 +27,18 @@ npm run dev
 
 Then open http://localhost:5173.
 
+## Editing content
+
+Everything on the page comes from `src/data/content.js`: profile, experience, projects, and contact links. Add a project there and it shows up as a new part, gets its own `#id` anchor, and is checked by the tests.
+
 ## Tests
 
 ```bash
 npm test
 ```
 
-The tests live in `src/games/routeLogic.test.js` and check the puzzle's logic:
-
-- **Normal use:** Dijkstra finds the cheapest route (even when it has more steps), route costs add up, and 50 randomly generated puzzles are all solvable.
-- **Edge cases:** start equals end, the end can't be reached, clicking a node that isn't connected, clicking backward to rewind, and trying to keep going after reaching the end.
+- `src/data/content.test.js` checks the content file: every project has a unique URL-safe id, a title, blurb, tags, and https links; every job has a role, organization, dates, and summary; there's exactly one valid email link.
+- `src/lib/format.test.js` checks the small formatting helpers (cursor coordinates, measurement labels, email/link parsing), including edge cases like negative or huge values.
 
 ## How deploys work
 
@@ -48,10 +51,9 @@ So nothing reaches the live site without passing the tests.
 
 ## AI use
 
-I built this with Claude (Anthropic) as a coding partner. It helped write the components, the game, the styling, the tests, and the CI setup, and explained concepts along the way. I decided what the site should be and what goes on it, reviewed and edited the code, and set up the repo, branch protection, CI, and Vercel deployment myself.
+I built this with Claude (Anthropic) as a coding partner. It helped explore design directions, write the components, styling, and tests, and explained concepts along the way. I decided what the site should be and what goes on it, reviewed and edited the code, and set up the repo, branch protection, CI, and Vercel deployment myself.
 
 ## Limitations
 
-- The tests cover the puzzle's logic, not the visuals. There are no browser tests, so a layout or click bug wouldn't be caught automatically.
-- Your best streak is saved in your own browser only; there's no shared leaderboard.
+- The tests cover the content and helper logic, not the visuals. There are no automated browser tests, so a layout bug wouldn't be caught by CI.
 - AI-written code can look right and still be wrong. The tests and my own review are the check on that, but they don't cover everything.
