@@ -24,10 +24,10 @@ export const experience = [
     summary: 'Computational research on protein interactions in Python.',
   },
   {
-    // TODO: confirm exact title and add `when` (e.g. 'Sep 2025 – Present'); dates aren't listed yet.
-    role: 'Developer',
+    role: 'Software Developer',
     org: 'NOBE UIUC',
-    current: false,
+    when: 'Sep 2026 – Present',
+    current: true,
     summary: 'Developed full-stack features for an elementary school after-school lottery system, including an admin settings dashboard, CSV student import and validation workflows, and a Java-based lottery placement engine.',
   },
   {
