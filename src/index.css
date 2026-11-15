@@ -157,7 +157,7 @@ main:focus {
 /* ---------- Title block ---------- */
 .tb {
   display: grid;
-  grid-template-columns: 64px 1.5fr 1.15fr 1fr 1fr 1.6fr;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
   border-bottom: var(--rule) solid var(--line);
 }
 
@@ -176,11 +176,16 @@ main:focus {
 
 .tb__cell {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-  padding: 10px 14px;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 20px;
   min-width: 0;
+}
+
+.tb__cell .now {
+  flex: none;
+  margin-right: 0;
 }
 
 .tb__value {
@@ -188,18 +193,11 @@ main:focus {
   font: 500 0.8125rem/1.35 var(--sans);
 }
 
-.tb__value--mono {
-  font: 500 0.8125rem var(--mono);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
 .tb__nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 0 14px;
+  gap: 28px;
+  padding: 0 20px;
 }
 
 .tb__nav a {
@@ -210,8 +208,17 @@ main:focus {
 /* ---------- Hero ---------- */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   border-bottom: var(--rule) solid var(--line);
+}
+
+/* No featured project to draw: the copy takes the whole width. */
+.hero--solo {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hero--solo .hero__copy {
+  border-right: 0;
 }
 
 .hero__copy {
@@ -222,7 +229,7 @@ main:focus {
 
 .hero__name {
   --name-max: clamp(4rem, 8.2vw, 7rem);
-  margin: 28px 0 0;
+  margin: 0;
   /* Never wider than the column: the longest word decides how small the name gets. */
   font: 500 min(var(--name-max), calc(100cqi / (var(--name-chars, 6) * 0.6))) / 0.92 var(--sans);
   letter-spacing: -0.05em;
@@ -260,8 +267,8 @@ main:focus {
 }
 
 .hero__lede {
-  max-width: 30ch;
-  margin-bottom: 32px;
+  max-width: 34ch;
+  margin-bottom: 26px;
   color: var(--ink-2);
   font-size: 1.25rem;
   line-height: 1.45;
@@ -337,136 +344,138 @@ main:focus {
   transform: none;
 }
 
-/* ---------- Detail A ---------- */
-.detail {
-  position: relative;
-  min-height: 480px;
-  padding: 24px;
+/* ---------- How it works: the featured project as parts on one axis ---------- */
+.xv {
+  --part-col: 46%;
+  --leader: 36px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 24px 28px 26px;
 }
 
-.detail figcaption {
-  position: relative;
-  z-index: 2;
+.xv__cap {
+  margin-bottom: 30px;
 }
 
-.datum {
+/* Stages and output sit centred between the caption and the links, so the axis never trails off. */
+.xv__stages {
+  position: relative;
+  display: grid;
+  gap: 30px;
+  margin-top: auto;
+}
+
+/* The shared axis every part is exploded along; it runs on into the output arrow. */
+.xv__stages::before {
+  content: '';
   position: absolute;
-  pointer-events: none;
-}
-
-.datum--h {
-  left: 24px;
-  right: 24px;
-  top: 52%;
-  border-top: 1px dashed var(--line);
-}
-
-.datum--v {
-  top: 56px;
-  bottom: 24px;
-  left: 50%;
+  top: -16px;
+  bottom: -16px;
+  left: calc(var(--part-col) / 2);
   border-left: 1px dashed var(--line);
 }
 
-.core {
+.xv__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--part-col) minmax(0, 1fr);
+  column-gap: var(--leader);
+  align-items: center;
+}
+
+/* Leader from the axis to the balloon. It starts under the part, so it appears to leave its edge. */
+.xv__stage::before {
+  content: '';
   position: absolute;
+  top: 50%;
+  left: calc(var(--part-col) / 2);
+  width: calc(var(--part-col) / 2 + var(--leader) - 4px);
+  border-top: 1px solid var(--line);
+}
+
+.xv__part {
+  position: relative;
   z-index: 1;
-  left: 50%;
-  top: 52%;
-  width: 132px;
-  height: 132px;
-  margin: -66px 0 0 -66px;
+  justify-self: center;
   display: grid;
   place-items: center;
+  width: calc(var(--w, 1) * 100%);
+  min-height: 62px;
+  padding: 12px;
   border: var(--rule) solid var(--line);
+  /* Section hatching, as on a cut part. */
+  background:
+    repeating-linear-gradient(-45deg, var(--hair) 0 1px, transparent 1px 7px),
+    var(--paper);
+  transition: border-color 150ms ease;
+}
+
+.xv__chip {
+  max-width: 100%;
+  padding: 2px 8px;
   background: var(--paper);
-  font: 600 2.125rem var(--mono);
-  letter-spacing: -0.02em;
+  font: 600 0.75rem/1.4 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
-.callout {
-  position: absolute;
-  z-index: 2;
-  width: min(210px, 40%);
+.xv__label {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: center;
+  min-width: 0;
 }
 
-.callout--1 { left: 24px; top: 64px; }
-.callout--2 { right: 24px; top: 64px; text-align: right; }
-.callout--3 { left: 24px; top: calc(52% + 96px); }
-.callout--4 { right: 24px; top: calc(52% + 96px); text-align: right; }
-
-.callout__body {
-  display: block;
-  transform-origin: left center;
-  transition: transform 160ms var(--ease-out);
-}
-
-/* Right-hand callouts shrink toward their own edge, not into the drawing (phones stack them left). */
-@media (min-width: 761px) {
-  .detail:not(.detail--list) .callout--2 .callout__body,
-  .detail:not(.detail--list) .callout--4 .callout__body {
-    transform-origin: right center;
-  }
-}
-
-a.callout__body:active {
-  transform: scale(0.98);
-}
-
-.callout__n {
-  display: inline-grid;
+.xv__n {
+  display: grid;
   place-items: center;
   width: 20px;
   height: 20px;
-  margin-bottom: 6px;
   border-radius: 50%;
   background: var(--mark);
   color: var(--on-mark);
   font: 600 0.625rem var(--mono);
 }
 
-.callout__title {
-  display: block;
+.xv__detail {
   overflow-wrap: anywhere;
-  font: 500 0.9375rem/1.3 var(--sans);
-  text-wrap: balance;
-  transition: color 150ms ease;
-}
-
-.callout__detail {
-  display: block;
-  overflow-wrap: anywhere;
-  margin-top: 2px;
-  color: var(--ink-2);
-  font-size: 0.7812rem;
-  line-height: 1.45;
+  font: 400 0.9375rem/1.35 var(--sans);
   text-wrap: pretty;
 }
 
-/* Fewer than three callouts: stack them under the core instead of leaving empty quadrants. */
-.detail--list {
-  min-height: 0;
-}
-
-.detail--list .core {
-  position: relative;
-  left: auto;
-  top: auto;
-  width: 100%;
-  height: 72px;
-  margin: 16px 0 20px;
-  font-size: 1.625rem;
-}
-
-.detail--list .callouts {
+.xv__out {
   display: grid;
-  gap: 18px;
+  grid-template-columns: var(--part-col) minmax(0, 1fr);
+  column-gap: var(--leader);
+  align-items: center;
+  margin: 16px 0 26px;
 }
 
-.detail--list .callout {
-  position: static;
-  width: auto;
-  text-align: left;
+.xv__arrow {
+  justify-self: center;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 9px solid var(--line);
+}
+
+/* Indented past the balloon so it lines up with the step text above. */
+.xv__out-text {
+  min-width: 0;
+  padding-left: 30px;
+  overflow-wrap: anywhere;
+  font: 500 0.875rem/1.35 var(--sans);
+}
+
+.xv__links {
+  margin-bottom: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--hair);
 }
 
 /* ---------- Sections ---------- */
@@ -517,11 +526,8 @@ a.callout__body:active {
   border-bottom: 0;
 }
 
-.part__id {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
+.part__kind {
+  margin-bottom: 14px;
 }
 
 .part__title {
@@ -531,6 +537,10 @@ a.callout__body:active {
   letter-spacing: -0.03em;
 }
 
+.part__award {
+  margin-bottom: 10px;
+}
+
 .part__blurb {
   flex: 1;
   margin-bottom: 20px;
@@ -538,30 +548,11 @@ a.callout__body:active {
   text-wrap: pretty;
 }
 
-.spec {
+.part__tags {
   margin-bottom: 18px;
-  font: 0.7812rem/1.5 var(--mono);
-}
-
-.spec > div {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 8px;
-  padding: 7px 0;
-  border-top: 1px solid var(--hair);
-}
-
-.spec dd {
-  min-width: 0;
   overflow-wrap: anywhere;
-}
-
-.spec dt {
-  padding-top: 2px;
   color: var(--ink-3);
-  font-size: 0.6562rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font: 0.75rem/1.5 var(--mono);
 }
 
 .part__links {
@@ -577,60 +568,12 @@ a.callout__body:active {
   transition: color 150ms ease, border-color 150ms ease;
 }
 
-.measure {
-  position: absolute;
-  inset: -1px;
-  z-index: 1;
-  border: 1px dashed var(--mark);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 150ms ease;
-}
-
-.measure__label {
-  position: absolute;
-  top: -9px;
-  right: 10px;
-  padding: 0 6px;
-  background: var(--paper);
-  color: var(--mark);
-  font-variant-numeric: tabular-nums;
-}
-
-.part:focus-within .measure {
-  opacity: 1;
-}
-
-/* No size tag until there's a measurement to show. */
-.measure__label:empty {
-  display: none;
-}
-
-/* Arriving from an in-page link (Detail A → LinkCare): outline the part you landed on, then let it go.
-   Long enough to outlast the smooth scroll; opacity only, so it stays on under reduced motion. */
-.part:target .measure {
-  animation: landed 2000ms var(--ease-out);
-}
-
-@keyframes landed {
-  0% { opacity: 0; }
-  10%, 70% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* ---------- Experience log ---------- */
-.log__head,
+/* ---------- Experience ---------- */
 .log__row {
   display: grid;
   grid-template-columns: 184px minmax(0, 1.3fr) minmax(0, 1.4fr) minmax(0, 1.9fr);
   gap: 20px;
   padding: 0 20px;
-}
-
-.log__head {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
 }
 
 .log__row {
@@ -686,7 +629,6 @@ a.callout__body:active {
 .contact__title {
   overflow-wrap: anywhere;
   max-width: 20ch;
-  margin-top: 10px;
   font: 500 clamp(2rem, 3.6vw, 2.75rem) / 1.06 var(--sans);
   letter-spacing: -0.035em;
   text-wrap: balance;
@@ -717,7 +659,6 @@ a.callout__body:active {
 /* ---------- Hover (fine pointers only, so taps never stick) ---------- */
 @media (hover: hover) and (pointer: fine) {
   .tb__nav a:hover,
-  .callout__body:hover .callout__title,
   .part__links a:hover {
     color: var(--mark);
   }
@@ -735,8 +676,8 @@ a.callout__body:active {
     background: var(--tint);
   }
 
-  .part:hover .measure {
-    opacity: 1;
+  .xv__stage:hover .xv__part {
+    border-color: var(--mark);
   }
 }
 
@@ -751,26 +692,31 @@ a.callout__body:active {
     animation-delay: calc(var(--d, 0) * 60ms);
   }
 
-  .datum--h {
-    animation: draw-h 900ms 250ms var(--ease-in-out) backwards;
-  }
-
-  .datum--v {
-    animation: draw-v 900ms 400ms var(--ease-in-out) backwards;
-  }
-
-  .core {
-    animation: settle 500ms 650ms var(--ease-out) backwards;
-  }
-
-  /* The UIUC ⟷ degree dimension line draws out to its ticks, like the datum lines. */
+  /* The UIUC ⟷ degree dimension line draws out to its ticks, like the axis in Detail A. */
   .dimline__rule {
     animation: draw-h 700ms 200ms var(--ease-in-out) backwards;
   }
 
-  .callout {
+  /* Detail A assembles: the axis draws, the parts arrive in order, then a signal runs down the axis. */
+  .xv__stages::before {
+    animation: draw-v 900ms 200ms var(--ease-in-out) backwards;
+  }
+
+  .xv__stage,
+  .xv__out {
     animation: enter 500ms var(--ease-out) backwards;
-    animation-delay: calc(800ms + var(--i, 0) * 70ms);
+    animation-delay: calc(350ms + var(--i, 0) * 90ms);
+  }
+
+  .xv__stages::after {
+    content: '';
+    position: absolute;
+    top: -16px;
+    bottom: -16px;
+    left: calc(var(--part-col) / 2 - 0.5px);
+    border-left: 2px solid var(--mark);
+    pointer-events: none;
+    animation: signal 1500ms 1000ms var(--ease-in-out) both;
   }
 }
 
@@ -788,14 +734,10 @@ a.callout__body:active {
   to { clip-path: inset(0 0 0 0); }
 }
 
-@keyframes settle {
-  from { opacity: 0; transform: scale(0.96); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  a.callout__body:active {
-    transform: none;
-  }
+@keyframes signal {
+  0% { opacity: 1; clip-path: inset(0 0 100% 0); }
+  70% { opacity: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 0; clip-path: inset(0 0 0 0); }
 }
 
 /* ---------- Tablet ---------- */
@@ -807,21 +749,7 @@ a.callout__body:active {
   }
 
   .tb {
-    grid-template-columns: 56px 1.3fr 1fr 1.4fr;
-  }
-
-  .tb__cell--cursor,
-  .tb__cell--school {
-    display: none;
-  }
-
-  .detail {
-    min-height: 440px;
-  }
-
-  .spec > div {
-    grid-template-columns: 1fr;
-    gap: 2px;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
   }
 
   .hero {
@@ -833,8 +761,9 @@ a.callout__body:active {
     border-bottom: 1px solid var(--line);
   }
 
-  .callout {
-    width: min(240px, 42%);
+  .xv {
+    --part-col: 40%;
+    padding: 24px var(--pad-x) 28px;
   }
 }
 
@@ -847,7 +776,7 @@ a.callout__body:active {
   }
 
   .tb {
-    grid-template-columns: 52px 1fr 1fr;
+    grid-template-columns: 52px minmax(0, 1fr);
   }
 
   .btn {
@@ -859,16 +788,12 @@ a.callout__body:active {
     --name-max: 4rem;
   }
 
-  .spec > div {
-    grid-template-columns: 88px minmax(0, 1fr);
-    gap: 8px;
-  }
-
   .tb__nav {
     grid-column: 1 / -1;
     min-height: 44px;
     border-left: 0;
     border-top: 1px solid var(--line);
+    justify-content: space-between;
   }
 
   .hero__copy {
@@ -879,34 +804,21 @@ a.callout__body:active {
     font-size: 1.0625rem;
   }
 
-  .detail {
-    min-height: 0;
+  .xv {
+    --part-col: 38%;
+    --leader: 18px;
     padding: 20px var(--pad-x) 24px;
   }
 
-  .datum {
-    display: none;
+  /* Narrow column: parts stay nearly full width so short words like TypeScript never split. */
+  .xv__part {
+    width: calc(70% + var(--w, 1) * 30%);
+    padding: 8px 4px;
   }
 
-  .core {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: 72px;
-    margin: 16px 0 20px;
-    font-size: 1.625rem;
-  }
-
-  .callouts {
-    display: grid;
-    gap: 18px;
-  }
-
-  .callout {
-    position: static;
-    width: auto;
-    text-align: left;
+  .xv__chip {
+    padding: 2px 4px;
+    font-size: 0.6875rem;
   }
 
   .parts {
@@ -920,10 +832,6 @@ a.callout__body:active {
 
   .part:last-child {
     border-bottom: 0;
-  }
-
-  .log__head {
-    display: none;
   }
 
   .log__row {

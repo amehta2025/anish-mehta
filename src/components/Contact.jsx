@@ -38,12 +38,10 @@ export default function Contact() {
   return (
     <section id="contact" className="contact" aria-labelledby="contact-title">
       <div className="contact__lead">
-        <p className="label dim">Contact</p>
         <h2 id="contact-title" className="contact__title">{contactLead.headline}</h2>
-        <p className="contact__note">{contactLead.note}</p>
+        {contactLead.note && <p className="contact__note">{contactLead.note}</p>}
       </div>
       <div className="contact__channels">
-        <p className="label dim">Channels</p>
         <div className="btns">
           <a className="btn btn--ink" href={`mailto:${email}`}>{email}</a>
           <CopyButton text={email} />

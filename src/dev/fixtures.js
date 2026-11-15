@@ -14,7 +14,20 @@ export const worst = {
     university: 'University of Illinois Urbana-Champaign',
     degree: 'Computer Science + Chemistry, Minor in Statistics',
     status: 'Open to Summer 2027 internships and research positions',
+    tagline: 'I build careful, well-tested software for computational science, healthcare, and accessibility',
     builds: ['full-stack apps', 'AI tools', 'research pipelines', 'embedded systems'],
+  },
+  featured: {
+    project: 'protein-ligand-pipeline',
+    stages: [
+      { name: 'Parameterization', detail: 'Cleans the protein, protonates it at the right pH, and parameterizes every ligand before anything runs on the cluster.' },
+      { name: 'Ø', detail: 'x' },
+      { name: 'Simulate', detail: 'Short runs on the campus cluster' },
+      { name: 'Score', detail: 'Ranks binding stability across hundreds of candidates' },
+      { name: 'Benachrichtigungseinstellungen', detail: 'Lets the lab browse and filter results' },
+      { name: 'Ship', detail: 'One image' },
+    ],
+    output: 'A ranked shortlist of candidates for the wet lab to test next week',
   },
   experience: [
     {
@@ -98,7 +111,8 @@ export const one = {
 
 export const empty = {
   ...demo,
-  profile: { ...demo.profile, builds: [] },
+  profile: { ...demo.profile, tagline: undefined, builds: [] },
+  featured: null,
   experience: [],
   projects: [],
 }

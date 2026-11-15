@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contact, contactLead, experience, profile, projects } from './content.js'
+import { contact, contactLead, experience, featured, profile, projects } from './content.js'
 
 // The page is rendered entirely from this file, so a typo here is a broken page.
 // These checks catch the mistakes that are easy to make when adding new entries.
@@ -56,6 +56,16 @@ describe('projects', () => {
   })
 })
 
+describe('featured', () => {
+  it('points at a real project and has named, described steps', () => {
+    expect(projects.map((p) => p.id)).toContain(featured.project)
+    expect(featured.stages.length).toBeGreaterThan(0)
+    for (const s of featured.stages) expect(s.name && s.detail, s.name).toBeTruthy()
+    const names = featured.stages.map((s) => s.name)
+    expect(new Set(names).size).toBe(names.length) // React keys
+  })
+})
+
 describe('contact', () => {
   it('has exactly one email link and https links for the rest', () => {
     const mail = contact.filter((c) => c.url.startsWith('mailto:'))
@@ -64,8 +74,7 @@ describe('contact', () => {
     for (const c of contact.filter((x) => !x.url.startsWith('mailto:'))) expect(isUrl(c.url), c.url).toBe(true)
   })
 
-  it('has the headline and note shown in the contact section', () => {
+  it('has the headline shown in the contact section', () => {
     expect(contactLead.headline).toBeTruthy()
-    expect(contactLead.note).toBeTruthy()
   })
 })

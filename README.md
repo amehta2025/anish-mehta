@@ -4,7 +4,7 @@ Hey, I'm Anish. This is my personal website.
 
 **Live:** https://anish-mehta.vercel.app
 
-The site is designed like an engineering drawing: a title block across the top (with a live cursor readout), a "Detail A" diagram of what I'm working on now, projects laid out as numbered parts with spec tables (hover one to measure it), and an experience log. It follows your system's light/dark setting (dark mode is a blueprint) and respects reduced-motion preferences.
+The site is designed like an engineering drawing: a slim top bar, a drawing of how TrajectoryGPT works (edit `featured` in `src/data/content.js`), project cards, and an experience list. It follows your system's light/dark setting (dark mode is a blueprint) and respects reduced-motion preferences.
 
 ## Built with
 
