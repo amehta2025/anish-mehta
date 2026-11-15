@@ -11,4 +11,4 @@ if (import.meta.env.DEV) {
   if (key && fixtures[key]) source = fixtures[key]
 }
 
-export const { profile, experience, projects, contact, contactLead } = source
+export const { profile, featured, experience, projects, contact, contactLead } = source

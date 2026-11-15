@@ -20,7 +20,6 @@ export default function App() {
         </main>
         <footer className="foot label dim">
           <span>© {new Date().getFullYear()} {profile.name}</span>
-          <span>Sheet 1 of 1</span>
         </footer>
       </div>
       {import.meta.env.DEV && <DataToggle />}
